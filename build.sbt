@@ -1,6 +1,12 @@
 name := "tikaassembly"
 scalaVersion := "2.12.3"
-libraryDependencies ++= Seq(Dependencies.Tika, Dependencies.ScalaTest)
+libraryDependencies ++= Seq(
+  Dependencies.Logback,
+  Dependencies.JaiImageIO,
+  Dependencies.ScalaTest,
+  Dependencies.SQLite,
+  Dependencies.Tika
+) ++ Dependencies.JBig2ImageIO
 assemblyMergeStrategy in assembly := {
   case x if Assembly.isConfigFile(x) =>
     MergeStrategy.concat
@@ -20,7 +26,8 @@ assemblyMergeStrategy in assembly := {
         MergeStrategy.discard
       case "services" :: xs =>
         MergeStrategy.filterDistinctLines
-      case ("spring.schemas" :: Nil) | ("spring.handlers" :: Nil) | ("blueprint.handlers" :: Nil) =>
+      case ("spring.schemas" :: Nil) | ("spring.handlers" :: Nil) |
+          ("blueprint.handlers" :: Nil) =>
         MergeStrategy.filterDistinctLines
       case _ => MergeStrategy.deduplicate
     }
